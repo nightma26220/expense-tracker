@@ -1,5 +1,8 @@
 
 import java.util.*;
+
+// Test commit for contribution tracking - Testing GitHub contributions display
+// Version: 1.0
 public class Main{
     public static void main(String[] args){
         ArrayList<Expense> expenses =  new ArrayList<>();
