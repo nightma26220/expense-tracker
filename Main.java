@@ -1,5 +1,8 @@
 
 import java.util.*;
+
+// Test commit for contribution tracking - Testing GitHub contributions display
+// Version: 1.0
 public class Main{
     public static void main(String[] args){
         ArrayList<Expense> expenses =  new ArrayList<>();
@@ -12,11 +15,11 @@ public class Main{
          System.out.println("3. DELETE EXPENSE");
          System.out.println("4.SEARCH EXPENSE");
          System.out.println("5.TOTAL SPENDING");
-         System.out.println("6.EXIT");
-
+         System.out.println("6.UPDATE");
+         System.out.println("7.EXIT");
         System.out.println("Enter your choice");
         int choice = sc.nextInt();
-        
+        //adding an expense
         if(choice == 1) {
             sc.nextLine();
 
@@ -50,6 +53,7 @@ public class Main{
 
 
         }
+        //viewing an expense
         else if(choice == 2) {
             if( expenses.isEmpty()){
                 System.out.println("No expenses found.");
@@ -67,6 +71,7 @@ public class Main{
             }
     
         }
+        //deleting an expense
         else if(choice ==3){
             System.out.println("please enter the id to be deleted!");
             int removeId = sc.nextInt();
@@ -86,6 +91,9 @@ public class Main{
                 System.out.println("Oops you have entered the invalid id");
             }
         }
+
+        //searching an expense through id
+
         else if(choice==4){
             System.out.println("Enter id number to be searched:");
             int SearchId=sc.nextInt();
@@ -109,6 +117,7 @@ public class Main{
             }
             
         }
+        //calculating total expense
         else if( choice==5){
             double total=0;
             for(Expense e:expenses){
@@ -116,7 +125,42 @@ public class Main{
             }
             System.out.println("Your spending total is"+total);
         }
-        else if(choice==6) {
+        //updating an expense
+        else if(choice==6){
+            System.out.println("Please enter the id to be updated");
+            int updateId=sc.nextInt();
+            sc.nextLine();
+            boolean found=false;
+            for(Expense e:expenses){
+                if(e.id==updateId){
+                    System.out.println("New Title");
+                    String title=sc.nextLine();
+                    System.out.println("New Amount:");
+                    double amount=sc.nextDouble();
+                    sc.nextLine();
+                    System.out.println("New Category");
+                    String category=sc.nextLine();
+                    System.out.println("So you new updated id is:");
+                    e.title=title;
+                    e.amount=amount;
+                    e.category=category;
+
+                    System.out.println("ID"+e.id);
+                    System.out.println("TITLE"+e.title);
+                    System.out.println("AMOUNT"+e.amount);
+                    System.out.println("CATEGORY"+e.category);
+                    found=true;
+                    break;
+                }
+                if(!found){
+                    System.out.println("OOps Expense not found");
+                }
+                
+
+                
+            }
+        }
+        else if(choice==7) {
             System.out.println("you have chosen to exit");
 
             break;
