@@ -1,0 +1,2 @@
+1,pants,800.0,clothes
+2,Fan,300.0,Utility
