@@ -4,8 +4,18 @@ import java.util.*;
 // Test commit for contribution tracking - Testing GitHub contributions display
 // Version: 1.0
 public class Main{
+    public static int generateNextId(ArrayList<Expense> expenses){
+        int maxId=0;
+        for(Expense e:expenses){
+            if(e.id>maxId){
+                maxId=e.id;
+            }
+        }
+        return maxId+1;
+    }
     public static void main(String[] args){
-        ArrayList<Expense> expenses =  new ArrayList<>();
+        String fileName = "expenses.txt";
+        ArrayList<Expense> expenses =  new ArrayList<>(FileStorage.loadFromFile(fileName));
         Scanner sc=new Scanner(System.in);
         while(true)
         {
@@ -23,16 +33,35 @@ public class Main{
         if(choice == 1) {
             sc.nextLine();
 
-            System.out.print("Enter the id ");
-            int id=sc.nextInt();
-
-            sc.nextLine();
+           int id = generateNextId(expenses);
+           System.out.println("Generated Id: "+id);
+        //    boolean idExists = false;
+        //     for (Expense e:expenses){
+        //         if(e.id == id){
+        //             idExists =true;
+        //             break;
+        //         }
+        //     }
+        //     if(idExists){
+        //         System.out.println("ID already exists!");
+        //         continue;
+        //     }
+            //sc.nextLine();
 
             System.out.print("Enter the title ");
             String title=sc.nextLine();
 
+            if(title.trim().isEmpty()){
+                System.out.println("Title cannot be empty..");
+                continue;
+            }
+
             System.out.print("Enter the Amount ");
             double amount=sc.nextDouble();
+            if(amount<0){
+                System.out.println("Amount cannot be negative");
+                continue;
+            }
             sc.nextLine();
 
             System.out.print("Enter the Category ");
@@ -41,6 +70,7 @@ public class Main{
            Expense expense=new Expense(id,title,amount,category);
             
             expenses.add(expense);
+            FileStorage.saveToFile(expenses,fileName);
 
             System.out.println("Total Expenses:" + expenses.size());
 
@@ -61,10 +91,7 @@ public class Main{
 
             else {
                 for(Expense e : expenses){
-                    System.out.println("ID : "+ e.id);
-                    System.out.println("Title : "+e.title);
-                    System.out.println("Amount : "+ e.amount);
-                    System.out.println("Category :" + e.category);
+                   System.out.println(e);
 
                     System.out.println("----------------------------");
                 }
@@ -81,6 +108,7 @@ public class Main{
                 Expense e = expenses.get(i);
                 if(e.id == removeId){
                     expenses.remove(i);
+                    FileStorage.saveToFile(expenses,fileName);
                      found = true;
                     System.out.println("Expense deleted successfully");
                     break;
@@ -119,12 +147,32 @@ public class Main{
         }
         //calculating total expense
         else if( choice==5){
+            if(expenses.size()!=0){
             double total=0;
+            double highAmt = 0;
+            double avgExpense = 0;
             for(Expense e:expenses){
                 total+=e.amount;
+                if(e.amount>highAmt){
+                    highAmt = e.amount;
+                }
+               
+                
             }
-            System.out.println("Your spending total is"+total);
+             
+            avgExpense = total/expenses.size();
+                
+            System.out.println("Number of expenses is: "+ expenses.size());
+            System.out.println("Your spending total is: "+total);
+            System.out.println("Highest Expense is: "+highAmt);
+            System.out.println("The average spending is: "+avgExpense);
         }
+        else{
+            System.out.println("No expense found");
+        }
+        }
+        
+
         //updating an expense
         else if(choice==6){
             System.out.println("Please enter the id to be updated");
@@ -144,21 +192,22 @@ public class Main{
                     e.title=title;
                     e.amount=amount;
                     e.category=category;
-
-                    System.out.println("ID"+e.id);
-                    System.out.println("TITLE"+e.title);
-                    System.out.println("AMOUNT"+e.amount);
-                    System.out.println("CATEGORY"+e.category);
+                    FileStorage.saveToFile(expenses,fileName);           System.out.println("ID: "+e.id);
+                    System.out.println("TITLE: "+e.title);
+                    System.out.println("AMOUNT: "+e.amount);
+                    System.out.println("CATEGORY: "+e.category);
                     found=true;
                     break;
                 }
-                if(!found){
-                    System.out.println("OOps Expense not found");
-                }
+               
                 
 
                 
             }
+             if(!found){
+                    System.out.println("OOps Expense not found");
+                    break;
+                }
         }
         else if(choice==7) {
             System.out.println("you have chosen to exit");

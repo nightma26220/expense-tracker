@@ -10,5 +10,12 @@ public class Expense {
         this.amount=amount;
         this.category=category;
     }
+    @Override
+    public String toString() {
+        return "ID:" + id +
+                "\n Title: " + title +
+                "\n Amount: " + amount +
+                "\n Category: " + category;
+    }
 
 }
